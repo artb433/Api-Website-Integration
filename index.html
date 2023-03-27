@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get users</title>
+    
+</head>
+<body>
+    <div><input type="text" id="first-city-input" placeholder="Enter first city......"></div>
+    <div><input type="text" id="second-city-input" placeholder="Enter second city......"></div>
+    
+    <div class="text-end">
+        <button id="compare_btn">COMPARE</button>
+    </div>
+    <div id="compareresult"></div>
+
+
+    <script>
+
+        let compareBtn = document.getElementById("compare_btn");
+        const input1 = document.querySelector('#first-city-input');
+        const input2 = document.querySelector('#second-city-input');
+
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': '542c5af924msh91ec8edd98fe73fp159354jsn59edefe85649',
+                'X-RapidAPI-Host': 'country-facts.p.rapidapi.com'
+            }
+        };
+        compareBtn.addEventListener('click', () => {
+            const city1 = input1.value;
+            const city2 = input2.value;
+            if (city1 == city2) {
+                alert("Please enter different cities");
+            }
+            if (city1 == 0 || city2 == 0) {
+                alert("Please fill all spaces");
+            } else {
+                fetch('https://country-facts.p.rapidapi.com/all', options)
+                .then(response => response.json())
+                .then(response => {
+                let city1Data = response.filter(city => city.capital.toString().toLowerCase() === city1.toString().toLowerCase());
+                let city2Data = response.filter(city => city.capital.toString().toLowerCase() === city2.toString().toLowerCase());
+                console.log(city1Data);
+                console.log(city2Data);
+                let city1Population = city1Data[0].population;
+                let city2Population = city2Data[0].population;
+                console.log(city1Population);
+                console.log(city2Population);
+                compareresult.innerHTML += `
+                    <div class="col-md-3 col-sm-6">
+                        <div class="card card-block">
+                            <img src="${city1Data[0].flag}">
+                            <h5 class="card-title mt-3 mb-3">${city1Data[0].capital}</h5>
+                            <p class="card-text">
+                            Capital: ${city1Data[0].capital} <br/>
+                            Population: ${city1Data[0].population}<br/>
+                    
+                            </p>
+                        </div>
+                        <div class="card card-block">
+                            <img src="${city2Data[0].flag}">
+                            <h5 class="card-title mt-3 mb-3">${city2Data[0].capital}</h5>
+                            <p class="card-text">
+                            Capital: ${city2Data[0].capital} <br/>
+                            Population: ${city2Data[0].population}<br/>
+                            
+                            </p>
+                        </div>
+                    </div>
+                    `;
+            })
+          
+            .catch(err => console.error(err));
+            }
+      
+            });
+
+
+
+
+
+        // TODO: THIS IS THE TURNING POINT 
+        // let compareBtn = document.getElementById("compare_btn");
+        // const input1 = document.querySelector('#first-city-input');
+        // const input2 = document.querySelector('#second-city-input');
+
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': '542c5af924msh91ec8edd98fe73fp159354jsn59edefe85649',
+        //         'X-RapidAPI-Host': 'country-facts.p.rapidapi.com'
+        //     }
+        // };
+        // compareBtn.addEventListener('click', () => {
+        //     const country1 = input1.value;
+        //     const country2 = input2.value;
+          
+        //     fetch('https://country-facts.p.rapidapi.com/all', options)
+        //     .then(response => response.json())
+        //     .then(response => {
+        //         let country1Data = response.filter(country => country.name.common.toLowerCase() === country1.toLowerCase());
+        //         let country2Data = response.filter(country => country.name.common.toLowerCase() === country2.toLowerCase());
+        //         console.log(country1Data);
+        //         console.log(country2Data);
+        //         let country1Population = country1Data[0].population;
+        //         console.log(country1Population);
+        //         compareresult.innerHTML += `
+        //             <div class="col-md-3 col-sm-6">
+        //                 <div class="card card-block">
+        //                     <img src="${country1Data[0].flag}">
+        //                     <h5 class="card-title mt-3 mb-3">${country1Data[0].name.common}</h5>
+        //                     <p class="card-text">
+        //                     Capital: ${country1Data[0].capital} <br/>
+        //                     Population: ${country1Data[0].population}
+        //                     </p>
+        //                 </div>
+        //                 <div class="card card-block">
+        //                     <img src="${country2Data[0].flag}">
+        //                     <h5 class="card-title mt-3 mb-3">${country2Data[0].name.common}</h5>
+        //                     <p class="card-text">
+        //                     Capital: ${country2Data[0].capital} <br/>
+        //                     Population: ${country2Data[0].population}
+        //                     </p>
+        //                 </div>
+        //             </div>
+        //             `;
+        //     })
+          
+        //     .catch(err => console.error(err));
+        //     });
+
+                // fetch('http://jsonplaceholder.typicode.com/users')
+        // .then(response => response.json())
+        // .then(data => {
+        //     data.forEach(user => {
+        //         const h1 = document.createElement('h1');
+        //         h1.innerHTML = user.name;
+        //         document.getElementById('users').appendChild(h1);
+        //     });
+        // });
+
+
+        //todo: use later
+        // const options = {
+        //     method: 'GET',
+        //     headers: {
+        //         'X-RapidAPI-Key': '542c5af924msh91ec8edd98fe73fp159354jsn59edefe85649',
+        //         'X-RapidAPI-Host': 'country-facts.p.rapidapi.com'
+        //     }
+        // };
+
+        // fetch('https://country-facts.p.rapidapi.com/all', options)
+        // .then(response => {
+        //     return response.json();
+        // })
+        // .then(data => {
+        //     console.log(data);
+        //     data.forEach(country => {
+        //         const h1 = document.createElement('h1');
+        //         h1.innerHTML = country.name[0].common;
+        //         document.getElementById('users').appendChild(h1);
+        //     });
+        // })
+        // .catch(err => console.error(err));
+
+                // fetch('https://jsonplaceholder.typicode.com/users')
+        //     .then(res => {
+        //         return res.json();
+        //     })
+        //     .then(response => {
+        //         let users = response;
+        //         let output = '';
+        //         for (let user of users) {
+        //             output += `
+        //                 <li>
+        //                     <h3>${user.name}</h3>
+        //                     <p>${user.email}</p>
+        //                 </li>
+        //             `;
+        //         }
+        //         document.getElementById('users').innerHTML = output;
+        //     })
+        
+        // fetch('http://jsonplaceholder.typicode.com/users')
+        // .then(response => response.json())
+        // .then(data => {
+        //     data.forEach(user => {
+        //         const h1 = document.createElement('h1');
+        //         h1.innerHTML = user.name;
+        //         document.getElementById('users').appendChild(h1);
+        //     });
+        // });
+    </script>
+</body>
+</html>
